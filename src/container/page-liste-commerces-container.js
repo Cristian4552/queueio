@@ -9,18 +9,22 @@ function PageListeCommerces(props) {
     const [activeFilter, setActiveFilter] = useState("clear");
 
     const [ListeComplete, setListeComplete] = useState([]);
+    const [CommerceConfig, setCommerceConfig] = useState([]);
+
     const [maListeCommerces, setMaListeCommerces] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
+			await fetchCommerceInfo();
+		}
+        fetchData();
+
+        async function fetchCommerceInfo() {
             const response = await fetch("https://queueio.herokuapp.com/");
             const liste = await response.json();
-            return liste;
-        }
-        fetchData().then((liste) => {
             setListeComplete(liste);
             makeList(liste);
-        });
+        }
     }, []);
 
     const makeList = (liste) => {
@@ -31,10 +35,11 @@ function PageListeCommerces(props) {
         let searchResult = ListeComplete.filter((commerce) =>
             commerce.nom.toLowerCase().includes(search.toLowerCase())
         );
-        if (activeFilter !== "clear")
-            searchResult = searchResult.filter(
+        if (activeFilter !== "clear"){        
+        searchResult = searchResult.filter(
                 (commerce) => commerce.filtre_id === activeFilter
             );
+        }
         setMaListeCommerces(searchResult);
     }, [search, activeFilter]);
 
