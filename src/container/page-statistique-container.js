@@ -16,7 +16,7 @@ function PageStatistiqueContainer(props){
 
     useEffect(() =>{
         async function fetchData(){
-          const response = await fetch('https://queueio.herokuapp.com/commerces/stats/'.concat(commerce_id));
+          const response = await fetch('https://queueio.herokuapp.com/commerceStatistiques/'.concat(commerce_id));
           const stats = await response.json();
           return stats
         }
