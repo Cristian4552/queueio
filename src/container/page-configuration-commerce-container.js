@@ -258,6 +258,7 @@ function PageConfigurationCommerceContainer(props) {
 			}
 			else{
                 employeeMethode =  "https://queueio.herokuapp.com/updateemployee/" + employe.nom + ","  + employe.courriel + ","  + employe.mot_passe + ","  + commerceId;
+            }
 				
             const response = await fetch(
                 employeeMethode, {
