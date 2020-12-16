@@ -21,8 +21,11 @@ function PageStatistiqueContainer(props){
           return stats
         }
         fetchData().then(stats =>{
-            console.log(stats);            
-            makeStatInfo(stats[0]);
+            if(stats !== undefined && stats.length !== 0){
+                console.log(stats);            
+                makeStatInfo(stats[0]);
+            }
+           
         })        
     }, [])
 
