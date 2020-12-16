@@ -258,9 +258,8 @@ function PageConfigurationCommerceContainer(props) {
 			else{
 				employeeMethode =  "updateemployee/";
 			}
-			console.log("https://queueio.herokuapp.com/"+ employeeMethode + employe.nom + "/"  + employe.courriel + "/"  + employe.mot_passe + "/"  + commerceId);
             const response = await fetch(
-                "https://queueio.herokuapp.com/"+ employeeMethode + employe.nom + "/"  + employe.courriel + "/"  + employe.mot_passe + "/"  + commerceId, {
+                "https://queueio.herokuapp.com/"+ employeeMethode + employe.nom + ","  + employe.courriel + ","  + employe.mot_passe + ","  + commerceId, {
 					method: isFirstTime ? 'POST' :  'PUT'
 				}          
             );
