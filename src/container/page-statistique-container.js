@@ -21,10 +21,11 @@ function PageStatistiqueContainer(props){
           return stats
         }
         fetchData().then(stats =>{
-            if(stats !== undefined && stats.length !== 0){
-                console.log(stats);            
+            if(stats !== undefined && stats.length !== 0){                
+                console.log("inside");            
                 makeStatInfo(stats[0]);
             }
+            console.log(stats);
            
         })        
     }, [])
