@@ -30,6 +30,13 @@ function PageStatistiqueContainer(props){
         setStatInfo(info);        
     }
 
+    const onClickHandler = id =>{
+        props.history.push({
+            pathname: '/commerceConfig',
+            state: commerce_id
+        })        
+    }
+
     return (
         <div>
             <Navbar/>
@@ -52,11 +59,8 @@ function PageStatistiqueContainer(props){
                         <li className="list-group-item">{statInfo.temp_moyen_attendre}</li>
                         <li className="list-group-item">{statInfo.temp_moyen_client_commerce}</li>
                     </ul>
-                </div>
-
-                <Link to={`/`}>
-                    <button type="button" className="btn btn-info btn-block my-4" id="btn-stat">Retour au profil</button>
-                </Link>                
+                </div>               
+                    <button type="button" className="btn btn-info btn-block my-4" id="btn-stat" onClick={onClickHandler}>Retour au profil</button>                           
             </div>
         </div>
     );

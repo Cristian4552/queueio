@@ -56,8 +56,7 @@ function PageListeCommerces(props) {
         props.history.push({
             pathname: '/info-client',
             state: commerce_id
-        }) 
-        console.log("dans le click handler");           
+        })        
     }
 
     const fetchNombreClientsCommerceId = (id) => {
@@ -73,7 +72,7 @@ function PageListeCommerces(props) {
     return (
         <div>
             <Navbar />
-            <h1>Bienvenue!</h1>
+            <h1 id="bienvenue">Bienvenue!</h1>
 
             <input
                 type="text"

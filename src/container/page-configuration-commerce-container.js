@@ -267,6 +267,8 @@ function PageConfigurationCommerceContainer(props) {
             const liste = await response.json();
             console.log(liste);
         }     
+        
+        alert("Les modifications ont été sauvegardées!");
 	};
 	
 	//https://queueio.herokuapp.com/employeCreation/john/micro@mail.com/123/7
