@@ -9,14 +9,21 @@ function PageListeCommerces(props) {
     const [activeFilter, setActiveFilter] = useState("clear");
 
     const [ListeComplete, setListeComplete] = useState([]);
-    const [CommerceConfig, setCommerceConfig] = useState([]);
+    const [listeFileAttente, setlisteFileAttente] = useState([]);
 
     const [maListeCommerces, setMaListeCommerces] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
-			await fetchCommerceInfo();
-		}
+            let listeCommerceTemp = await fetchCommerceInfo();
+            let mapFile = new Map();
+
+            for (const commerce of listeCommerceTemp) {
+                console.log(commerce.id);
+                mapFile[commerce.id] = await fetchFileAttente(commerce.id);
+            }
+            setlisteFileAttente(mapFile);
+        }
         fetchData();
 
         async function fetchCommerceInfo() {
@@ -24,6 +31,20 @@ function PageListeCommerces(props) {
             const liste = await response.json();
             setListeComplete(liste);
             makeList(liste);
+            return liste;
+        }
+
+        async function fetchFileAttente(id) {
+            const response = await fetch(
+                "https://queueio.herokuapp.com/redis/listClient/" + id
+            );
+
+            try {
+                const liste = await response.json();
+                return liste.length;
+            } catch (err) {
+                return 0;
+            }
         }
     }, []);
 
@@ -35,39 +56,27 @@ function PageListeCommerces(props) {
         let searchResult = ListeComplete.filter((commerce) =>
             commerce.nom.toLowerCase().includes(search.toLowerCase())
         );
-        if (activeFilter !== "clear"){        
-        searchResult = searchResult.filter(
+        if (activeFilter !== "clear") {
+            searchResult = searchResult.filter(
                 (commerce) => commerce.filtre_id === activeFilter
             );
         }
         setMaListeCommerces(searchResult);
     }, [search, activeFilter]);
 
-    const onChangeHandler = (id) => {
-        console.log(id);
-        setActiveFilter(id);
-    };
+    // const onChangeHandler = (id) => {
+    //     console.log(id);
+    //     setActiveFilter(id);
+    // };
 
-    const onClickHandler = id =>{
+    const onClickHandler = (id) => {
+        let commerce_id = id;
 
-        let commerce_id = id
-        console.log(commerce_id);
-    
         props.history.push({
-            pathname: '/info-client',
-            state: commerce_id
-        })        
-    }
-
-    const fetchNombreClientsCommerceId = (id) => {
-        let clients = localStorage.getItem("clients");
-        if (clients) {
-            clients = JSON.parse(clients).filter(
-                (client) => client.id_commerce === id
-            );
-            return clients.length;
-        } else return 0;
-    };
+            pathname: "/info-client",
+            state: commerce_id,
+        });
+    };    
 
     return (
         <div>
@@ -97,11 +106,9 @@ function PageListeCommerces(props) {
                             id={commerce.id}
                             addresse={commerce.adresse}
                             key={`commerce-${index}`}
-                            nbPersonnesEnFile={fetchNombreClientsCommerceId(
-                                commerce.id
-                            )}
+                            nbPersonnesEnFile={listeFileAttente[commerce.id]}
                             tempsAttenteApprox={
-                                fetchNombreClientsCommerceId(commerce.id) * 5
+                                listeFileAttente[commerce.id] * 5
                             }
                             onClickHandler={onClickHandler}
                         />

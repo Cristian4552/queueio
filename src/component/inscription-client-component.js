@@ -12,6 +12,7 @@ function INSCRIPTION_CLIENT(props) {
         commerceId: commerceId,
         code: "",
     });
+    
 
     const [formData, setFormData] = useState(initialFormData);
     const [isValidationMode, setIsValidationMode] = useState(false);
